@@ -55,7 +55,7 @@
                                 @enderror
                             </div>
                             <div>
-                                <label for="domaine_expertise" class="block text-sm font-medium text-gray-700">Domaine d\\'expertise</label>
+                                <label for="domaine_expertise" class="block text-sm font-medium text-gray-700">Domaine d'expertise</label>
                                 <input type="text" name="domaine_expertise" id="domaine_expertise" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" value="{{ old("domaine_expertise") }}" required>
                                 @error("domaine_expertise")
                                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -74,7 +74,7 @@
                                 @enderror
                             </div>
                             <div>
-                                <label for="domaine_etude" class="block text-sm font-medium text-gray-700">Domaine d\\'étude</label>
+                                <label for="domaine_etude" class="block text-sm font-medium text-gray-700">Domaine d'étude</label>
                                 <input type="text" name="domaine_etude" id="domaine_etude" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" value="{{ old("domaine_etude") }}" required>
                                 @error("domaine_etude")
                                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -106,7 +106,7 @@
                                     <p class="text-sm text-gray-600">Ajoutez au moins un diplôme.</p>
                                 @endif
                             </div>
-                            <button type="button" id="add_diplome" class="mt-2 inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            <button type="button" id="add_diplome" class="btn btn-success">
                                 Ajouter un diplôme
                             </button>
                         </div>
@@ -152,7 +152,7 @@
                                     <p class="text-sm text-gray-600">Ajoutez au moins une expérience professionnelle.</p>
                                 @endif
                             </div>
-                            <button type="button" id="add_experience" class="mt-2 inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            <button type="button" id="add_experience" class="btn btn-success">
                                 Ajouter une expérience
                             </button>
                         </div>
@@ -194,7 +194,7 @@
                                 <h3 class="text-lg font-semibold mb-4">Champs Spécifiques Agent de Collecte</h3>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                                     <div>
-                                        <label for="type_agent_collecte" class="block text-sm font-medium text-gray-700">Type d\\'agent de collecte</label>
+                                        <label for="type_agent_collecte" class="block text-sm font-medium text-gray-700">Type d'agent de collecte</label>
                                         <select name="type_agent_collecte" id="type_agent_collecte" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                             <option value="">Sélectionner</option>
                                             <option value="superviseur" {{ old("type_agent_collecte") == "superviseur" ? "selected" : "" }}>Superviseur</option>
@@ -203,7 +203,7 @@
                                         </select>
                                     </div>
                                     <div>
-                                        <label for="niveau_etudes" class="block text-sm font-medium text-gray-700">Niveau d\\'études</label>
+                                        <label for="niveau_etudes" class="block text-sm font-medium text-gray-700">Niveau d'études</label>
                                         <input type="text" name="niveau_etudes" id="niveau_etudes" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" value="{{ old("niveau_etudes") }}">
                                     </div>
                                 </div>
@@ -228,13 +228,13 @@
                                             <p class="text-sm text-gray-600">Ajoutez au moins une langue.</p>
                                         @endif
                                     </div>
-                                    <button type="button" id="add_langue" class="mt-2 inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    <button type="button" id="add_langue" class="btn btn-success">
                                         Ajouter une langue
                                     </button>
                                 </div>
                                 <!-- Expérience d\\'enquêtes -->
                                 <div class="mb-6">
-                                    <h4 class="text-md font-semibold mb-2">Expérience d\\'enquêtes (Ménage)</h4>
+                                    <h4 class="text-md font-semibold mb-2">Expérience d'enquêtes (Ménage)</h4>
                                     <div id="enquetes_menage_container">
                                         @if(old("enquetes_menage"))
                                             @foreach(old("enquetes_menage") as $index => $enquete)
@@ -262,16 +262,16 @@
                                                 </div>
                                             @endforeach
                                         @else
-                                            <p class="text-sm text-gray-600">Ajoutez au moins une expérience d\\'enquête Ménage.</p>
+                                            <p class="text-sm text-gray-600">Ajoutez au moins une expérience d'enquête Ménage.</p>
                                         @endif
                                     </div>
-                                    <button type="button" id="add_enquete_menage" class="mt-2 inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    <button type="button" id="add_enquete_menage" class="btn btn-success">
                                         Ajouter une enquête Ménage
                                     </button>
                                 </div>
 
                                 <div class="mb-6">
-                                    <h4 class="text-md font-semibold mb-2">Expérience d\\'enquêtes (Entreprise)</h4>
+                                    <h4 class="text-md font-semibold mb-2">Expérience d'enquêtes (Entreprise)</h4>
                                     <div id="enquetes_entreprise_container">
                                         @if(old("enquetes_entreprise"))
                                             @foreach(old("enquetes_entreprise") as $index => $enquete)
@@ -302,7 +302,7 @@
                                             <p class="text-sm text-gray-600">Ajoutez au moins une expérience d\\'enquête Entreprise.</p>
                                         @endif
                                     </div>
-                                    <button type="button" id="add_enquete_entreprise" class="mt-2 inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    <button type="button" id="add_enquete_entreprise" class="btn btn-success">
                                         Ajouter une enquête Entreprise
                                     </button>
                                 </div>
@@ -336,10 +336,10 @@
                                                 </div>
                                             @endforeach
                                         @else
-                                            <p class="text-sm text-gray-600">Ajoutez au moins une expérience d\\'enquête Socio-économique.</p>
+                                            <p class="text-sm text-gray-600">Ajoutez au moins une expérience d'enquête Socio-économique.</p>
                                         @endif
                                     </div>
-                                    <button type="button" id="add_enquete_socio_economique" class="mt-2 inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    <button type="button" id="add_enquete_socio_economique" class="btn btn-success">
                                         Ajouter une enquête Socio-économique
                                     </button>
                                 </div>
@@ -381,11 +381,12 @@
                         </div>
 
                         <div class="flex items-center justify-end mt-4">
-                            <button type="submit" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">
+                            <button type="submit" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150 bg-green-500 hover:bg-green-600 text-white">
                                 Ajouter Personnel
                             </button>
                         </div>
-                    </form>
+                    <div id="dynamic-fields-container" class="my-4"></div>
+</form>
                 </div>
             </div>
         </div>
@@ -615,3 +616,28 @@
         });
     </script>
 </x-app-layout>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    document.body.addEventListener('click', function (e) {
+        if (e.target.classList.contains('remove-field')) {
+            e.preventDefault();
+            e.target.closest('.dynamic-field')?.remove();
+        }
+    });
+
+    document.querySelectorAll('.add-field').forEach(function (btn) {
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            const container = document.querySelector('#dynamic-fields-container');
+            const newField = document.createElement('div');
+            newField.className = 'dynamic-field flex items-center gap-2 mb-2';
+            newField.innerHTML = `
+                <input type="text" name="custom_fields[]" class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm" />
+                <button class="remove-field bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded" title="Supprimer ce champ">X</button>
+            `;
+            container.appendChild(newField);
+        });
+    });
+});
+</script>
