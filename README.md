@@ -253,7 +253,7 @@ Avant de lancer l'application Laravel, assurez-vous d'exécuter les commandes su
     ```
 
 2.  **Copie du fichier d'environnement** :
-    Crée une copie du fichier d'exemple `.env.example` pour votre configuration locale. Vous devrez ensuite éditer ce fichier pour configurer votre base de données.
+    Crée une copie du fichier d'exemple `.env.example` pour votre configuration locale. Vous devrez ensuite éditer ce fichier pour configurer votre base de donnée.
     ```bash
     cp .env.example .env
     ```
