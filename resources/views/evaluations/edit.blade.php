@@ -20,6 +20,21 @@
                         @method("PUT")
 
                         <div class="mb-4">
+                            <label for="projet_id" class="block text-sm font-medium text-gray-700">Projet *</label>
+                            <select name="projet_id" id="projet_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
+                                <option value="">Sélectionner un projet</option>
+                                @foreach ($projets as $projet)
+                                    <option value="{{ $projet->id }}" {{ (old("projet_id", $evaluation->projet_id) == $projet->id) ? "selected" : "" }}>
+                                        {{ $projet->nom_projet }} ({{ $projet->nom_client }})
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error("projet_id")
+                                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div class="mb-4">
                             <label for="personnel_temporaire_id" class="block text-sm font-medium text-gray-700">Personnel à évaluer</label>
                             <select name="personnel_temporaire_id" id="personnel_temporaire_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
                                 <option value="">Sélectionner un personnel</option>
@@ -50,13 +65,7 @@
                             @enderror
                         </div>
 
-                        <div class="mb-4">
-                            <label for="mission_contexte" class="block text-sm font-medium text-gray-700">Contexte de la mission</label>
-                            <textarea name="mission_contexte" id="mission_contexte" rows="3" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">{{ old("mission_contexte", $evaluation->mission_contexte) }}</textarea>
-                            @error("mission_contexte")
-                                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
+
 
                         <div class="mb-6">
                             <h3 class="text-lg font-medium text-gray-900 mb-4">Critères d'évaluation</h3>
@@ -141,4 +150,3 @@
     </script>
     @endpush
 </x-app-layout>
-

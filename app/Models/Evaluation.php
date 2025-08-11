@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\Projet;
 
 class Evaluation extends Model
 {
@@ -14,11 +15,16 @@ class Evaluation extends Model
     protected $fillable = [
         'personnel_temporaire_id',
         'evaluateur_nom',
-        'mission_contexte',
+        'projet_id',
         'commentaire_global',
         'score_total',
         'date_evaluation'
     ];
+
+    public function projet(): BelongsTo
+    {
+        return $this->belongsTo(Projet::class);
+    }
 
     protected $casts = [
         'date_evaluation' => 'date',

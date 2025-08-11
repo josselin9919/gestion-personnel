@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PersonnelTemporaireController;
 use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\CritereEvaluationController;
+use App\Http\Controllers\ProjetController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -46,5 +47,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+// Projets routes
+    Route::resource('projets', ProjetController::class);
 
 require __DIR__.'/auth.php';

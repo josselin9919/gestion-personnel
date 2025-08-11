@@ -6,6 +6,8 @@ use App\Models\Evaluation;
 use App\Models\PersonnelTemporaire;
 use App\Models\CritereEvaluation;
 use App\Models\NoteCritere;
+use App\Models\Projet;
+use App\Models\TypePersonnel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -14,25 +16,75 @@ class EvaluationController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $evaluations = Evaluation::with(
+        $query = Evaluation::with(
             [
-                'personnelTemporaire',
+                'personnelTemporaire.typePersonnel',
+                'projet',
                 'notesCriteres.critereEvaluation'
             ]
-        )->orderBy('date_evaluation', 'desc')->paginate(10);
-        return view('evaluations.index', compact('evaluations'));
+        );
+
+        // Filtre par projet
+        if ($request->filled('projet_id')) {
+            $query->where('projet_id', $request->input('projet_id'));
+        }
+
+        // Filtre par type de personnel
+        if ($request->filled('type_personnel_id')) {
+            $query->whereHas('personnelTemporaire', function ($q) use ($request) {
+                $q->where('type_personnel_id', $request->input('type_personnel_id'));
+            });
+        }
+
+        // Filtre par intervalle de note (score_total)
+        if ($request->filled('score_min')) {
+            $query->where('score_total', '>=', $request->input('score_min'));
+        }
+        if ($request->filled('score_max')) {
+            $query->where('score_total', '<=', $request->input('score_max'));
+        }
+
+        // Filtre par date d'évaluation
+        if ($request->filled('date_debut')) {
+            $query->where('date_evaluation', '>=', $request->input('date_debut'));
+        }
+        if ($request->filled('date_fin')) {
+            $query->where('date_evaluation', '<=', $request->input('date_fin'));
+        }
+
+        // Filtre par évaluateur
+        if ($request->filled('evaluateur_nom')) {
+            $query->where('evaluateur_nom', 'like', '%' . $request->input('evaluateur_nom') . '%');
+        }
+
+        // Filtre par personnel spécifique
+        if ($request->filled('personnel_id')) {
+            $query->where('personnel_temporaire_id', $request->input('personnel_id'));
+        }
+
+        $evaluations = $query->orderBy('date_evaluation', 'desc')->paginate(10);
+
+        $projets = Projet::orderBy('nom_projet')->get();
+        $typesPersonnel = \App\Models\TypePersonnel::all(); // Assurez-vous d'importer ce modèle
+        $personnels = PersonnelTemporaire::orderBy('nom')->get();
+
+        return view('evaluations.index', compact('evaluations', 'projets', 'typesPersonnel', 'personnels'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
         $personnels = PersonnelTemporaire::all();
-        // Les critères seront chargés dynamiquement via AJAX en fonction du personnel sélectionné
-        return view('evaluations.create', compact('personnels'));
+        $projets = Projet::where('statut', '!=', 'annulé')->orderBy('nom_projet')->get();
+
+        // Si un projet_id est passé en paramètre, le pré-sélectionner
+        $selectedProjetId = $request->get('projet_id');
+
+        return view('evaluations.create', compact('personnels', 'projets', 'selectedProjetId'));
     }
 
     /**
@@ -43,7 +95,7 @@ class EvaluationController extends Controller
         $validated = $request->validate([
             'personnel_temporaire_id' => 'required|exists:personnels_temporaires,id',
             'evaluateur_nom' => 'required|string|max:255',
-            'mission_contexte' => 'nullable|string',
+            'projet_id' => 'required|exists:projets,id',
             'date_evaluation' => 'required|date',
             'notes' => 'required|array',
             'notes.*.critere_id' => 'required|exists:criteres_evaluation,id',
@@ -55,7 +107,7 @@ class EvaluationController extends Controller
             $evaluation = Evaluation::create([
                 'personnel_temporaire_id' => $validated['personnel_temporaire_id'],
                 'evaluateur_nom' => $validated['evaluateur_nom'],
-                'mission_contexte' => $validated['mission_contexte'],
+                'projet_id' => $validated['projet_id'],
                 'date_evaluation' => $validated['date_evaluation'],
             ]);
 
@@ -82,7 +134,7 @@ class EvaluationController extends Controller
      */
     public function show(Evaluation $evaluation)
     {
-        $evaluation->load('personnelTemporaire', 'notesCriteres.critereEvaluation');
+        $evaluation->load('personnelTemporaire', 'projet', 'notesCriteres.critereEvaluation');
         return view('evaluations.show', compact('evaluation'));
     }
 
@@ -92,9 +144,9 @@ class EvaluationController extends Controller
     public function edit(Evaluation $evaluation)
     {
         $personnels = PersonnelTemporaire::all();
-        // Les critères seront chargés dynamiquement via AJAX en fonction du personnel sélectionné
+        $projets = Projet::where('statut', '!=', 'annulé')->orderBy('nom_projet')->get();
         $evaluation->load('notesCriteres');
-        return view('evaluations.edit', compact('evaluation', 'personnels'));
+        return view('evaluations.edit', compact('evaluation', 'personnels', 'projets'));
     }
 
     /**
@@ -105,7 +157,7 @@ class EvaluationController extends Controller
         $validated = $request->validate([
             'personnel_temporaire_id' => 'required|exists:personnels_temporaires,id',
             'evaluateur_nom' => 'required|string|max:255',
-            'mission_contexte' => 'nullable|string',
+            'projet_id' => 'required|exists:projets,id',
             'date_evaluation' => 'required|date',
             'notes' => 'required|array',
             'notes.*.critere_id' => 'required|exists:criteres_evaluation,id',
@@ -117,7 +169,7 @@ class EvaluationController extends Controller
             $evaluation->update([
                 'personnel_temporaire_id' => $validated['personnel_temporaire_id'],
                 'evaluateur_nom' => $validated['evaluateur_nom'],
-                'mission_contexte' => $validated['mission_contexte'],
+                'projet_id' => $validated['projet_id'],
                 'date_evaluation' => $validated['date_evaluation'],
             ]);
 
