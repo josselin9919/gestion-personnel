@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <form method="POST" action="{{ route("personnel.store") }}">
+                    <form method="POST" action="{{ route("personnel.store") }}" enctype="multipart/form-data">
                         @csrf
 
                         <!-- Informations Personnelles (Champs Communs) -->
@@ -23,17 +23,33 @@
                                 @enderror
                             </div>
                             <div>
-                                <label for="ncin" class="block text-sm font-medium text-gray-700">Numéro de CNI</label>
-                                <input type="text" name="ncin" id="ncin" class="mt-1 block w-full" value="{{ old('ncin', $personnel->ncin ?? '') }}">
+                                <label for="ncin" class="block text-sm font-medium text-gray-700">NIU (Numéro d'Identification Unique)</label>
+                                <input type="text" name="ncin" id="ncin" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" value="{{ old('ncin', $personnel->ncin ?? '') }}">
+                                @error("ncin")
+                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                @enderror
                             </div>
 
                             <div>
                                 <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                                <input type="email" name="email" id="email" class="mt-1 block w-full" value="{{ old('email', $personnel->email ?? '') }}">
+                                <input type="email" name="email" id="email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" value="{{ old('email', $personnel->email ?? '') }}">
+                                @error("email")
+                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                @enderror
                             </div>
                             <div>
                                 <label for="telephone" class="block text-sm font-medium text-gray-700">Téléphone</label>
-                                <input type="text" name="telephone" id="telephone" class="mt-1 block w-full" value="{{ old('telephone', $personnel->telephone ?? '') }}">
+                                <input type="text" name="telephone" id="telephone" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" value="{{ old('telephone', $personnel->telephone ?? '') }}">
+                                @error("telephone")
+                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <div>
+                                <label for="photo" class="block text-sm font-medium text-gray-700">Photo</label>
+                                <input type="file" name="photo" id="photo" accept="image/*" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                @error("photo")
+                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                @enderror
                             </div>
                             <div>
                                 <label for="sexe" class="block text-sm font-medium text-gray-700">Sexe</label>
@@ -415,7 +431,7 @@
                     // Add required attributes for formateur fields if needed
                     // document.getElementById("specialite_formation").setAttribute("required", "required");
                     break;
-                case "agent_collecte": // Note: slugified name
+                case "agent_de_collecte": // Note: slugified name
                     document.getElementById("agent_de_collecte_fields").style.display = "block";
                     // Add required attributes for agent_de_collecte fields if needed
                     // document.getElementById("type_agent_collecte").setAttribute("required", "required");

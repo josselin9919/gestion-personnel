@@ -47,7 +47,8 @@ class PersonnelTemporaireController extends Controller
         $validated = $request->validate([
             'nom' => 'required|string|max:255',
             'ncin' => 'nullable|string|max:50',
-            'email' => 'nullable|email|max:255|unique:personnel_temporaires,email',
+            'email' => 'nullable|email|max:255|unique:personnels_temporaires,email',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'telephone' => 'nullable|string|max:20',
             'sexe' => 'required|in:M,F',
             'date_naissance' => 'required|date',
@@ -110,11 +111,21 @@ class PersonnelTemporaireController extends Controller
         DB::beginTransaction();
 
         try {
+            // Gestion de l'upload de photo
+            $photoPath = null;
+            if ($request->hasFile('photo')) {
+                $photo = $request->file('photo');
+                $photoName = time() . '_' . $photo->getClientOriginalName();
+                $photo->move(public_path('storage/photos'), $photoName);
+                $photoPath = 'storage/photos/' . $photoName;
+            }
+
             // Préparation des données pour le personnel temporaire
             $personnelData = [
                 'nom' => $validated['nom'],
                 'ncin' => $validated['ncin'] ?? null,
                 'email' => $validated['email'] ?? null,
+                'photo' => $photoPath,
                 'telephone' => $validated['telephone'] ?? null,
                 'sexe' => $validated['sexe'],
                 'date_naissance' => $validated['date_naissance'],
@@ -291,7 +302,7 @@ class PersonnelTemporaireController extends Controller
         $validated = $request->validate([
             'nom' => 'required|string|max:255',
             'ncin' => 'nullable|string|max:50',
-            'email' => 'nullable|email|max:255|unique:personnel_temporaires,email' . $personnel->id,
+            'email' => 'nullable|email|max:255|unique:personnels_temporaires,email,' . $personnel->id,
             'telephone' => 'nullable|string|max:20',
             'sexe' => 'required|in:M,F',
             'date_naissance' => 'required|date',
@@ -362,4 +373,3 @@ class PersonnelTemporaireController extends Controller
         }
     }
 }
-

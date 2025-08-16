@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             TypePersonnelSeeder::class,
-            CritereEvaluationSeeder::class,
+            //CritereEvaluationSeeder::class,
             // Ajoutez d'autres seeders ici si nécessaire
         ]);
     }
