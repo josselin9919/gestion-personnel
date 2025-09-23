@@ -68,6 +68,33 @@
                     </a>
                 </div>
             </div>
+
+            <!-- Administration -->
+            @canany(['roles.view', 'users.view'])
+                <div class="pt-4 mt-4 border-t border-gray-200">
+                    <p class="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Administration</p>
+                    <div class="mt-2 space-y-1">
+                        @can('roles.view')
+                            <a href="{{ route('roles.index') }}"
+                               class="flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors duration-200 {{ request()->routeIs('roles.*') ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-700' : 'text-gray-700 hover:bg-gray-100' }}">
+                                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h2a2 2 0 002-2V7a2 2 0 00-2-2h-2m-4 16V7m0 13H8a2 2 0 01-2-2V7a2 2 0 012-2h4m0 13h-4m8 0V7m0 13a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2h10a2 2 0 012 2v10a2 2 0 01-2 2z"></path>
+                                </svg>
+                                Gestion des Rôles
+                            </a>
+                        @endcan
+                        @can('users.view')
+                            <a href="{{ route('users.index') }}"
+                               class="flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors duration-200 {{ request()->routeIs('users.*') ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-700' : 'text-gray-700 hover:bg-gray-100' }}">
+                                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+                                </svg>
+                                Gestion des Utilisateurs
+                            </a>
+                        @endcan
+                    </div>
+                </div>
+            @endcanany
         </div>
     </nav>
 
@@ -91,4 +118,3 @@
         </div>
     </div>
 </div>
-
