@@ -13,6 +13,15 @@ use Illuminate\Support\Facades\DB;
 
 class EvaluationController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('permission:evaluations.view', ['only' => ['index', 'show', 'historique']]);
+        $this->middleware('permission:evaluations.create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:evaluations.edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:evaluations.delete', ['only' => ['destroy']]);
+        $this->middleware('permission:evaluations.historique', ['only' => ['historique']]);
+    }
     /**
      * Display a listing of the resource.
      */

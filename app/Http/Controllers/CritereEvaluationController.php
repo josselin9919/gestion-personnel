@@ -8,6 +8,15 @@ use Illuminate\Http\Request;
 
 class CritereEvaluationController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('permission:criteres.view', ['only' => ['index', 'show']]);
+        $this->middleware('permission:criteres.create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:criteres.edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:criteres.delete', ['only' => ['destroy']]);
+        $this->middleware('permission:criteres.toggle', ['only' => ['toggleActif']]);
+    }
     /**
      * Display a listing of the resource.
      */
