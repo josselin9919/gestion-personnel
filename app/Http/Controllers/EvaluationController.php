@@ -219,25 +219,20 @@ class EvaluationController extends Controller
     }
 
     /**
-     * Get evaluation criteria based on personnel type.
+     * Get evaluation criteria based on project.
      */
-    public function getCriteresByPersonnel(Request $request)
+    public function getCriteresByProjet(Request $request)
     {
-        $personnelId = $request->input('personnel_id');
-        $personnel = PersonnelTemporaire::with('typePersonnel')->find($personnelId);
+        $projetId = $request->input('projet_id');
 
-        if (!$personnel) {
-            return response()->json([], 404);
+        if (!$projetId) {
+            return response()->json([], 400);
         }
 
         $criteres = CritereEvaluation::where('actif', true)
-            ->where(function ($query) use ($personnel) {
-                $query->whereNull('type_personnel_id') // Critères généraux
-                      ->orWhere('type_personnel_id', $personnel->type_personnel_id); // Critères spécifiques au type de personnel
-            })
+            ->where('projet_id', $projetId)
             ->get();
 
         return response()->json($criteres);
     }
 }
-

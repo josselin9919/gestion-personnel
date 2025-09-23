@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CritereEvaluation;
-use App\Models\TypePersonnel;
+use App\Models\Projet;
 use Illuminate\Http\Request;
 
 class CritereEvaluationController extends Controller
@@ -13,7 +13,7 @@ class CritereEvaluationController extends Controller
      */
     public function index()
     {
-        $criteres = CritereEvaluation::with('typePersonnel')->orderBy('nom')->paginate(10);
+        $criteres = CritereEvaluation::with('projet')->orderBy('nom')->paginate(10);
         return view('criteres.index', compact('criteres'));
     }
 
@@ -22,8 +22,8 @@ class CritereEvaluationController extends Controller
      */
     public function create()
     {
-        $typesPersonnel = TypePersonnel::all();
-        return view('criteres.create', compact('typesPersonnel'));
+        $projets = Projet::where('statut', '!=', 'annulé')->orderBy('nom_projet')->get();
+        return view('criteres.create', compact('projets'));
     }
 
     /**
@@ -34,7 +34,7 @@ class CritereEvaluationController extends Controller
         $validated = $request->validate([
             'nom' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'type_personnel_id' => 'nullable|exists:types_personnel,id',
+            'projet_id' => 'required|exists:projets,id',
             'poids' => 'required|numeric|min:0|max:10',
             'actif' => 'boolean',
         ]);
@@ -49,7 +49,7 @@ class CritereEvaluationController extends Controller
      */
     public function show(CritereEvaluation $critere)
     {
-        $critere->load('typePersonnel', 'notesCriteres.evaluation.personnelTemporaire');
+        $critere->load('projet', 'notesCriteres.evaluation.personnelTemporaire');
         return view('criteres.show', compact('critere'));
     }
 
@@ -58,8 +58,8 @@ class CritereEvaluationController extends Controller
      */
     public function edit(CritereEvaluation $critere)
     {
-        $typesPersonnel = TypePersonnel::all();
-        return view('criteres.edit', compact('critere', 'typesPersonnel'));
+        $projets = Projet::where('statut', '!=', 'annulé')->orderBy('nom_projet')->get();
+        return view('criteres.edit', compact('critere', 'projets'));
     }
 
     /**
@@ -70,7 +70,7 @@ class CritereEvaluationController extends Controller
         $validated = $request->validate([
             'nom' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'type_personnel_id' => 'nullable|exists:types_personnel,id',
+            'projet_id' => 'required|exists:projets,id',
             'poids' => 'required|numeric|min:0|max:10',
             'actif' => 'boolean',
         ]);

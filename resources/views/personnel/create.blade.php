@@ -415,7 +415,7 @@
                     // Add required attributes for formateur fields if needed
                     // document.getElementById("specialite_formation").setAttribute("required", "required");
                     break;
-                case "agent_collecte": // Note: slugified name
+                case "agent_de_collecte": // Note: slugified name
                     document.getElementById("agent_de_collecte_fields").style.display = "block";
                     // Add required attributes for agent_de_collecte fields if needed
                     // document.getElementById("type_agent_collecte").setAttribute("required", "required");

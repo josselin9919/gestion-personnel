@@ -47,7 +47,7 @@ class PersonnelTemporaireController extends Controller
         $validated = $request->validate([
             'nom' => 'required|string|max:255',
             'ncin' => 'nullable|string|max:50',
-            'email' => 'nullable|email|max:255|unique:personnel_temporaires,email',
+            'email' => 'nullable|email|max:255|unique:personnels_temporaires,email',
             'telephone' => 'nullable|string|max:20',
             'sexe' => 'required|in:M,F',
             'date_naissance' => 'required|date',
@@ -291,7 +291,7 @@ class PersonnelTemporaireController extends Controller
         $validated = $request->validate([
             'nom' => 'required|string|max:255',
             'ncin' => 'nullable|string|max:50',
-            'email' => 'nullable|email|max:255|unique:personnel_temporaires,email' . $personnel->id,
+            'email' => 'nullable|email|max:255|unique:personnels_temporaires,email' . $personnel->id,
             'telephone' => 'nullable|string|max:20',
             'sexe' => 'required|in:M,F',
             'date_naissance' => 'required|date',

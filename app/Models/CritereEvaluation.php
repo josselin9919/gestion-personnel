@@ -16,7 +16,7 @@ class CritereEvaluation extends Model
     protected $fillable = [
         'nom',
         'description',
-        'type_personnel_id',
+        'projet_id',
         'poids',
         'actif'
     ];
@@ -26,9 +26,9 @@ class CritereEvaluation extends Model
         'actif' => 'boolean'
     ];
 
-    public function typePersonnel(): BelongsTo
+    public function projet(): BelongsTo
     {
-        return $this->belongsTo(TypePersonnel::class);
+        return $this->belongsTo(Projet::class);
     }
 
     public function notesCriteres(): HasMany

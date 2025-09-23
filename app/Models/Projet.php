@@ -26,4 +26,9 @@ class Projet extends Model
     {
         return $this->hasMany(Evaluation::class);
     }
+
+    public function criteresEvaluation()
+    {
+        return $this->hasMany(CritereEvaluation::class);
+    }
 }

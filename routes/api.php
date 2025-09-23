@@ -19,5 +19,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::get("/criteres-by-personnel", [App\Http\Controllers\EvaluationController::class, "getCriteresByPersonnel"]);
-
+Route::get("/criteres-by-projet", [App\Http\Controllers\EvaluationController::class, "getCriteresByProjet"]);

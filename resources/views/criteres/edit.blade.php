@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __("Ajouter un Critère d'Évaluation") }}
+            {{ __("Modifier le Critère d'Évaluation") }}
         </h2>
     </x-slot>
 
@@ -15,12 +15,13 @@
                         </div>
                     @endif
 
-                    <form action="{{ route("criteres.store") }}" method="POST">
+                    <form action="{{ route("criteres.update", $critere->id) }}" method="POST">
                         @csrf
+                        @method("PUT")
 
                         <div class="mb-4">
                             <label for="nom" class="block text-sm font-medium text-gray-700">Nom du critère</label>
-                            <input type="text" name="nom" id="nom" value="{{ old("nom") }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
+                            <input type="text" name="nom" id="nom" value="{{ old("nom", $critere->nom) }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
                             @error("nom")
                                 <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                             @enderror
@@ -28,7 +29,7 @@
 
                         <div class="mb-4">
                             <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
-                            <textarea name="description" id="description" rows="3" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">{{ old("description") }}</textarea>
+                            <textarea name="description" id="description" rows="3" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">{{ old("description", $critere->description) }}</textarea>
                             @error("description")
                                 <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                             @enderror
@@ -39,7 +40,7 @@
                             <select name="projet_id" id="projet_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
                                 <option value="">Sélectionner un projet</option>
                                 @foreach ($projets as $projet)
-                                    <option value="{{ $projet->id }}" {{ old("projet_id") == $projet->id ? "selected" : "" }}>
+                                    <option value="{{ $projet->id }}" {{ old("projet_id", $critere->projet_id) == $projet->id ? "selected" : "" }}>
                                         {{ $projet->nom_projet }} ({{ $projet->nom_client }})
                                     </option>
                                 @endforeach
@@ -51,7 +52,7 @@
 
                         <div class="mb-4">
                             <label for="poids" class="block text-sm font-medium text-gray-700">Poids (0-10)</label>
-                            <input type="number" name="poids" id="poids" min="0" max="10" step="0.1" value="{{ old("poids", 1) }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
+                            <input type="number" name="poids" id="poids" min="0" max="10" step="0.1" value="{{ old("poids", $critere->poids) }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
                             @error("poids")
                                 <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                             @enderror
@@ -59,7 +60,7 @@
 
                         <div class="mb-6">
                             <div class="flex items-center">
-                                <input type="checkbox" name="actif" id="actif" value="1" {{ old("actif", true) ? "checked" : "" }} class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                                <input type="checkbox" name="actif" id="actif" value="1" {{ old("actif", $critere->actif) ? "checked" : "" }} class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
                                 <label for="actif" class="ml-2 block text-sm text-gray-900">Critère actif</label>
                             </div>
                             @error("actif")
@@ -72,7 +73,7 @@
                                 Annuler
                             </a>
                             <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                Enregistrer le critère
+                                Mettre à jour le critère
                             </button>
                         </div>
                     </form>

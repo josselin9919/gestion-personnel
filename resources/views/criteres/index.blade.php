@@ -33,7 +33,7 @@
                                 <tr>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nom</th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type Personnel</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Projet</th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Poids</th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Statut</th>
                                     <th scope="col" class="relative px-6 py-3"><span class="sr-only">Actions</span></th>
@@ -45,7 +45,7 @@
                                         <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-900">{{ $critere->nom }}</td>
                                         <td class="px-6 py-4 text-sm text-gray-500">{{ Str::limit($critere->description, 50) }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            {{ $critere->typePersonnel ? $critere->typePersonnel->nom : "Tous" }}
+                                            {{ $critere->projet ? $critere->projet->nom_projet : "Non assigné" }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $critere->poids }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap">

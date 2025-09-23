@@ -92,23 +92,23 @@
     @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const personnelSelect = document.getElementById('personnel_temporaire_id');
+            const projetSelect = document.getElementById('projet_id');
             const criteresContainer = document.getElementById('criteres-container');
             // S'assurer que $evaluation et notesCriteres existent avant d'appeler keyBy
             const existingNotes = @json($evaluation->notesCriteres ? $evaluation->notesCriteres->keyBy('critere_evaluation_id') : []);
 
-            function loadCriteres(personnelId) {
-                if (!personnelId) {
-                    criteresContainer.innerHTML = '<p class="text-gray-500">Veuillez sélectionner un personnel pour afficher les critères d\'évaluation.</p>';
+            function loadCriteres(projetId) {
+                if (!projetId) {
+                    criteresContainer.innerHTML = '<p class="text-gray-500">Veuillez sélectionner un projet pour afficher les critères d\'évaluation.</p>';
                     return;
                 }
 
-                fetch(`/api/criteres-by-personnel?personnel_id=${personnelId}`)
+                fetch(`/api/criteres-by-projet?projet_id=${projetId}`)
                     .then(response => response.json())
                     .then(data => {
                         let html = '';
                         if (data.length === 0) {
-                            html = '<p class="text-gray-500">Aucun critère d\'évaluation trouvé pour ce type de personnel.</p>';
+                            html = '<p class="text-gray-500">Aucun critère d\'évaluation trouvé pour ce projet.</p>';
                         } else {
                             data.forEach((critere, index) => {
                                 const existingNote = existingNotes[critere.id] ? existingNotes[critere.id].note : '';
@@ -138,12 +138,12 @@
                     });
             }
 
-            // Charger les critères au chargement de la page si un personnel est déjà sélectionné
-            if (personnelSelect.value) {
-                loadCriteres(personnelSelect.value);
+            // Charger les critères au chargement de la page si un projet est déjà sélectionné
+            if (projetSelect.value) {
+                loadCriteres(projetSelect.value);
             }
 
-            personnelSelect.addEventListener('change', function() {
+            projetSelect.addEventListener('change', function() {
                 loadCriteres(this.value);
             });
         });

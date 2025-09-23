@@ -579,7 +579,7 @@
                 case 'formateur':
                     document.getElementById('formateur_fields').style.display = 'block';
                     break;
-                case 'agent_collecte': // Note: slugified name
+                case 'agent_de_collecte': // Note: slugified name
                     document.getElementById('agent_de_collecte_fields').style.display = 'block';
                     break;
                 case 'volontaire':

@@ -70,7 +70,7 @@
                             <h3 class="text-lg font-medium text-gray-900 mb-4">Critères d'évaluation</h3>
                             <div id="criteres-container">
                                 <!-- Les critères seront chargés ici via JavaScript -->
-                                <p class="text-gray-500">Veuillez sélectionner un personnel pour afficher les critères d'évaluation.</p>
+                                <p class="text-gray-500">Veuillez sélectionner un projet pour afficher les critères d'évaluation.</p>
                             </div>
                         </div>
 
@@ -91,23 +91,22 @@
     @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const personnelSelect = document.getElementById('personnel_temporaire_id');
+            const projetSelect = document.getElementById('projet_id');
             const criteresContainer = document.getElementById('criteres-container');
-            console.log('Personnel ID:', personnelSelect); // dans la fonction loadCriteres()
 
-            function loadCriteres(personnelId) {
-                console.log('Personnel ID:', personnelId); // dans la fonction loadCriteres()
-                if (!personnelId) {
-                    criteresContainer.innerHTML = '<p class="text-gray-500">Veuillez sélectionner un personnel pour afficher les critères d\'évaluation.</p>';
+            function loadCriteres(projetId) {
+                console.log('Projet ID:', projetId);
+                if (!projetId) {
+                    criteresContainer.innerHTML = '<p class="text-gray-500">Veuillez sélectionner un projet pour afficher les critères d\'évaluation.</p>';
                     return;
                 }
 
-                fetch(`/api/criteres-by-personnel?personnel_id=${personnelId}`)
+                fetch(`/api/criteres-by-projet?projet_id=${projetId}`)
                     .then(response => response.json())
                     .then(data => {
                         let html = '';
                         if (data.length === 0) {
-                            html = '<p class="text-gray-500">Aucun critère d\'évaluation trouvé pour ce type de personnel.</p>';
+                            html = '<p class="text-gray-500">Aucun critère d\'évaluation trouvé pour ce projet.</p>';
                         } else {
                             data.forEach((critere, index) => {
                                 html += `
@@ -136,12 +135,12 @@
                     });
             }
 
-            // Charger les critères si un personnel est déjà sélectionné (par exemple, après une erreur de validation)
-            if (personnelSelect.value) {
-                loadCriteres(personnelSelect.value);
+            // Charger les critères si un projet est déjà sélectionné (par exemple, après une erreur de validation)
+            if (projetSelect.value) {
+                loadCriteres(projetSelect.value);
             }
 
-            personnelSelect.addEventListener('change', function() {
+            projetSelect.addEventListener('change', function() {
                 loadCriteres(this.value);
             });
         });
