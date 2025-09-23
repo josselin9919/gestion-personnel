@@ -6,6 +6,7 @@ use App\Http\Controllers\PersonnelTemporaireController;
 use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\CritereEvaluationController;
 use App\Http\Controllers\ProjetController;
+use App\Http\Controllers\CVController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,6 +37,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Critères routes
     Route::resource('criteres', CritereEvaluationController::class);
     Route::patch('/criteres/{critere}/toggle-actif', [CritereEvaluationController::class, 'toggleActif'])->name('criteres.toggle-actif');
+
+    // CV routes
+    Route::get('/personnel/{id}/cv/preview', [CVController::class, 'previewCV'])->name('personnel.cv.preview');
+    Route::get('/personnel/{id}/cv/download', [CVController::class, 'generateCV'])->name('personnel.cv.download');
 
     // Export routes
     Route::get('/export/excel', function() { return response()->json(['message' => 'Export Excel en cours de développement']); })->name('export.excel');

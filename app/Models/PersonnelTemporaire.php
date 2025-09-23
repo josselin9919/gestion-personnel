@@ -20,6 +20,7 @@ class PersonnelTemporaire extends Model
         'ncin',
         'telephone',
         'email',
+        'photo',
         'telephone',
         'date_naissance',
         'lieu_naissance',
