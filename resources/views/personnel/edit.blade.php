@@ -122,7 +122,7 @@
                                     <p class="text-sm text-gray-600">Aucun diplôme enregistré. Ajoutez au moins un diplôme.</p>
                                 @endif
                             </div>
-                            <button type="button" id="add_diplome" class="mt-2 inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            <button type="button" id="add_diplome" class="btn btn-success">
                                 Ajouter un diplôme
                             </button>
                         </div>
@@ -205,7 +205,7 @@
                                     <p class="text-sm text-gray-600">Aucune expérience professionnelle enregistrée. Ajoutez au moins une expérience.</p>
                                 @endif
                             </div>
-                            <button type="button" id="add_experience" class="mt-2 inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            <button type="button" id="add_experience" class="btn btn-success">
                                 Ajouter une expérience
                             </button>
                         </div>
@@ -295,7 +295,7 @@
                                             <p class="text-sm text-gray-600">Aucune langue enregistrée. Ajoutez au moins une langue.</p>
                                         @endif
                                     </div>
-                                    <button type="button" id="add_langue" class="mt-2 inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    <button type="button" id="add_langue" class="btn btn-success">
                                         Ajouter une langue
                                     </button>
                                 </div>
@@ -365,7 +365,7 @@
                                             <p class="text-sm text-gray-600">Aucune expérience d'enquête Ménage enregistrée.</p>
                                         @endif
                                     </div>
-                                    <button type="button" id="add_enquete_menage" class="mt-2 inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    <button type="button" id="add_enquete_menage" class="btn btn-success">
                                         Ajouter une enquête Ménage
                                     </button>
                                 </div>
@@ -434,7 +434,7 @@
                                             <p class="text-sm text-gray-600">Aucune expérience d'enquête Entreprise enregistrée.</p>
                                         @endif
                                     </div>
-                                    <button type="button" id="add_enquete_entreprise" class="mt-2 inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    <button type="button" id="add_enquete_entreprise" class="btn btn-success">
                                         Ajouter une enquête Entreprise
                                     </button>
                                 </div>
@@ -503,7 +503,7 @@
                                             <p class="text-sm text-gray-600">Aucune expérience d'enquête Socio-économique enregistrée.</p>
                                         @endif
                                     </div>
-                                    <button type="button" id="add_enquete_socio_economique" class="mt-2 inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    <button type="button" id="add_enquete_socio_economique" class="btn btn-success">
                                         Ajouter une enquête Socio-économique
                                     </button>
                                 </div>
@@ -604,6 +604,17 @@
                 const index = container.children.length;
                 const newDiplomeHtml = `
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4 border p-4 rounded-md">
+                        <div >
+                        <button type="button"
+                            class="delete-field bg-red-500 hover:bg-red-600 text-white rounded-full p-1 shadow-md transition duration-200"
+                            title="Supprimer ce diplôme">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
                         <div>
                             <label for="diplomes[${index}][annee]" class="block text-sm font-medium text-gray-700">Année</label>
                             <input type="number" name="diplomes[${index}][annee]" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" required>
@@ -619,6 +630,7 @@
                     </div>
                 `;
                 container.insertAdjacentHTML('beforeend', newDiplomeHtml);
+                setupDeleteHandlers(); // Appeler après l'ajout
             });
 
             // Dynamic fields for Expériences Professionnelles
@@ -627,6 +639,17 @@
                 const index = container.children.length;
                 const newExperienceHtml = `
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 border p-4 rounded-md">
+                        <div >
+                        <button type="button"
+                            class="delete-field bg-red-500 hover:bg-red-600 text-white rounded-full p-1 shadow-md transition duration-200"
+                            title="Supprimer ce diplôme">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
                         <div>
                             <label for="experiences[${index}][date_debut]" class="block text-sm font-medium text-gray-700">Date Début</label>
                             <input type="date" name="experiences[${index}][date_debut]" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" required>
@@ -658,6 +681,7 @@
                     </div>
                 `;
                 container.insertAdjacentHTML('beforeend', newExperienceHtml);
+                setupDeleteHandlers(); // Appeler après l'ajout
             });
 
             // Dynamic fields for Langues parlées (Agents de collecte)
@@ -666,6 +690,17 @@
                 const index = container.children.length;
                 const newLangueHtml = `
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 border p-4 rounded-md">
+                        <div >
+                        <button type="button"
+                            class="delete-field bg-red-500 hover:bg-red-600 text-white rounded-full p-1 shadow-md transition duration-200"
+                            title="Supprimer ce diplôme">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
                         <div>
                             <label for="langues_parlees[${index}][langue]" class="block text-sm font-medium text-gray-700">Langue</label>
                             <input type="text" name="langues_parlees[${index}][langue]" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
@@ -677,6 +712,7 @@
                     </div>
                 `;
                 container.insertAdjacentHTML('beforeend', newLangueHtml);
+                setupDeleteHandlers(); // Appeler après l'ajout
             });
 
             // Dynamic fields for Expérience d'enquêtes (Ménage)
@@ -685,6 +721,17 @@
                 const index = container.children.length;
                 const newEnqueteMenageHtml = `
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 border p-4 rounded-md">
+                        <div >
+                        <button type="button"
+                            class="delete-field bg-red-500 hover:bg-red-600 text-white rounded-full p-1 shadow-md transition duration-200"
+                            title="Supprimer ce diplôme">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
                         <div>
                             <label for="enquetes_menage[${index}][annee]" class="block text-sm font-medium text-gray-700">Année</label>
                             <input type="number" name="enquetes_menage[${index}][annee]" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
@@ -708,6 +755,7 @@
                     </div>
                 `;
                 container.insertAdjacentHTML('beforeend', newEnqueteMenageHtml);
+                setupDeleteHandlers(); // Appeler après l'ajout
             });
 
             // Dynamic fields for Expérience d'enquêtes (Entreprise)
@@ -716,6 +764,17 @@
                 const index = container.children.length;
                 const newEnqueteEntrepriseHtml = `
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 border p-4 rounded-md">
+                        <div >
+                        <button type="button"
+                            class="delete-field bg-red-500 hover:bg-red-600 text-white rounded-full p-1 shadow-md transition duration-200"
+                            title="Supprimer ce diplôme">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
                         <div>
                             <label for="enquetes_entreprise[${index}][annee]" class="block text-sm font-medium text-gray-700">Année</label>
                             <input type="number" name="enquetes_entreprise[${index}][annee]" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
@@ -739,6 +798,7 @@
                     </div>
                 `;
                 container.insertAdjacentHTML('beforeend', newEnqueteEntrepriseHtml);
+                setupDeleteHandlers(); // Appeler après l'ajout
             });
 
             // Dynamic fields for Expérience d'enquêtes (Socio-économique)
@@ -747,6 +807,17 @@
                 const index = container.children.length;
                 const newEnqueteSocioEconomiqueHtml = `
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 border p-4 rounded-md">
+                        <div >
+                        <button type="button"
+                            class="delete-field bg-red-500 hover:bg-red-600 text-white rounded-full p-1 shadow-md transition duration-200"
+                            title="Supprimer ce diplôme">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
                         <div>
                             <label for="enquetes_socio_economique[${index}][annee]" class="block text-sm font-medium text-gray-700">Année</label>
                             <input type="number" name="enquetes_socio_economique[${index}][annee]" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
@@ -770,6 +841,7 @@
                     </div>
                 `;
                 container.insertAdjacentHTML('beforeend', newEnqueteSocioEconomiqueHtml);
+                setupDeleteHandlers(); // Appeler après l'ajout
             });
         });
     </script>

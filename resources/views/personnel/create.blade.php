@@ -151,7 +151,7 @@
                                                 <input type="text" name="experiences[{{ $index }}][structure_nom]" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" value="{{ $experience["structure_nom"] ?? "" }}" required>
                                             </div>
                                             <div>
-                                                <label for="experiences[{{ $index }}][domaine_intervention]" class="block text-sm font-medium text-gray-700">Domaine d\\'intervention</label>
+                                                <label for="experiences[{{ $index }}][domaine_intervention]" class="block text-sm font-medium text-gray-700">Domaine d'intervention</label>
                                                 <input type="text" name="experiences[{{ $index }}][domaine_intervention]" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" value="{{ $experience["domaine_intervention"] ?? "" }}" required>
                                             </div>
                                             <div>
@@ -248,7 +248,7 @@
                                         Ajouter une langue
                                     </button>
                                 </div>
-                                <!-- Expérience d\\'enquêtes -->
+                                <!-- Expérience d'enquêtes -->
                                 <div class="mb-6">
                                     <h4 class="text-md font-semibold mb-2">Expérience d'enquêtes (Ménage)</h4>
                                     <div id="enquetes_menage_container">
@@ -272,7 +272,7 @@
                                                         <input type="text" name="enquetes_menage[{{ $index }}][structure]" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" value="{{ $enquete["structure"] ?? "" }}">
                                                     </div>
                                                     <div>
-                                                        <label for="enquetes_menage[{{ $index }}][nombre_enquetes]" class="block text-sm font-medium text-gray-700">Nombre d\\'enquêtes</label>
+                                                        <label for="enquetes_menage[{{ $index }}][nombre_enquetes]" class="block text-sm font-medium text-gray-700">Nombre d'enquêtes</label>
                                                         <input type="number" name="enquetes_menage[{{ $index }}][nombre_enquetes]" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" value="{{ $enquete["nombre_enquetes"] ?? "" }}">
                                                     </div>
                                                 </div>
@@ -309,13 +309,13 @@
                                                         <input type="text" name="enquetes_entreprise[{{ $index }}][structure]" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" value="{{ $enquete["structure"] ?? "" }}">
                                                     </div>
                                                     <div>
-                                                        <label for="enquetes_entreprise[{{ $index }}][nombre_enquetes]" class="block text-sm font-medium text-gray-700">Nombre d\\'enquêtes</label>
+                                                        <label for="enquetes_entreprise[{{ $index }}][nombre_enquetes]" class="block text-sm font-medium text-gray-700">Nombre d'enquêtes</label>
                                                         <input type="number" name="enquetes_entreprise[{{ $index }}][nombre_enquetes]" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" value="{{ $enquete["nombre_enquetes"] ?? "" }}">
                                                     </div>
                                                 </div>
                                             @endforeach
                                         @else
-                                            <p class="text-sm text-gray-600">Ajoutez au moins une expérience d\\'enquête Entreprise.</p>
+                                            <p class="text-sm text-gray-600">Ajoutez au moins une expérience d'enquête Entreprise.</p>
                                         @endif
                                     </div>
                                     <button type="button" id="add_enquete_entreprise" class="btn btn-success">
@@ -324,7 +324,7 @@
                                 </div>
 
                                 <div class="mb-6">
-                                    <h4 class="text-md font-semibold mb-2">Expérience d\\'enquêtes (Socio-économique)</h4>
+                                    <h4 class="text-md font-semibold mb-2">Expérience d'enquêtes (Socio-économique)</h4>
                                     <div id="enquetes_socio_economique_container">
                                         @if(old("enquetes_socio_economique"))
                                             @foreach(old("enquetes_socio_economique") as $index => $enquete)
@@ -346,7 +346,7 @@
                                                         <input type="text" name="enquetes_socio_economique[{{ $index }}][structure]" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" value="{{ $enquete["structure"] ?? "" }}">
                                                     </div>
                                                     <div>
-                                                        <label for="enquetes_socio_economique[{{ $index }}][nombre_enquetes]" class="block text-sm font-medium text-gray-700">Nombre d\\'enquêtes</label>
+                                                        <label for="enquetes_socio_economique[{{ $index }}][nombre_enquetes]" class="block text-sm font-medium text-gray-700">Nombre d'enquêtes</label>
                                                         <input type="number" name="enquetes_socio_economique[{{ $index }}][nombre_enquetes]" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" value="{{ $enquete["nombre_enquetes"] ?? "" }}">
                                                     </div>
                                                 </div>
@@ -455,28 +455,61 @@
         // Call toggleFields on page load to set initial state
         document.addEventListener("DOMContentLoaded", function() {
             toggleFields();
-
+            function setupDeleteHandlers() {
+                document.querySelectorAll('.delete-field').forEach(button => {
+                    button.addEventListener('click', function() {
+                        if (confirm('Êtes-vous sûr de vouloir supprimer cet élément ?')) {
+                            this.closest('.grid').remove();
+                        }
+                    });
+                });
+            }
             // Dynamic fields for Diplômes
             document.getElementById("add_diplome").addEventListener("click", function() {
                 const container = document.getElementById("diplomes_container");
                 const index = container.children.length;
                 const newDiplomeHtml = `
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4 border p-4 rounded-md">
+                <div class="relative bg-gray-50 border border-gray-200 rounded-xl p-4 shadow-sm mb-4">
+                    <!-- Bouton supprimer repositionné -->
+                    <div >
+                        <button type="button"
+                            class="delete-field bg-red-500 hover:bg-red-600 text-white rounded-full p-1 shadow-md transition duration-200"
+                            title="Supprimer ce diplôme">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Champs du diplôme -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
                             <label for="diplomes[${index}][annee]" class="block text-sm font-medium text-gray-700">Année</label>
-                            <input type="number" name="diplomes[${index}][annee]" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" required>
+                            <input type="number" name="diplomes[${index}][annee]"
+                                class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                placeholder="2025" required>
                         </div>
+
                         <div>
                             <label for="diplomes[${index}][intitule]" class="block text-sm font-medium text-gray-700">Intitulé</label>
-                            <input type="text" name="diplomes[${index}][intitule]" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" required>
+                            <input type="text" name="diplomes[${index}][intitule]"
+                                class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                placeholder="Licence, Master..." required>
                         </div>
+
                         <div>
                             <label for="diplomes[${index}][etablissement]" class="block text-sm font-medium text-gray-700">Établissement</label>
-                            <input type="text" name="diplomes[${index}][etablissement]" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" required>
+                            <input type="text" name="diplomes[${index}][etablissement]"
+                                class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                placeholder="Université de Douala" required>
                         </div>
                     </div>
+                </div>
                 `;
                 container.insertAdjacentHTML("beforeend", newDiplomeHtml);
+                setupDeleteHandlers(); // Appeler après l'ajout
             });
 
             // Dynamic fields for Expériences Professionnelles
@@ -485,6 +518,17 @@
                 const index = container.children.length;
                 const newExperienceHtml = `
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 border p-4 rounded-md">
+                        <div >
+                        <button type="button"
+                            class="delete-field bg-red-500 hover:bg-red-600 text-white rounded-full p-1 shadow-md transition duration-200"
+                            title="Supprimer ce diplôme">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
                         <div>
                             <label for="experiences[${index}][date_debut]" class="block text-sm font-medium text-gray-700">Date Début</label>
                             <input type="date" name="experiences[${index}][date_debut]" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" required>
@@ -502,7 +546,7 @@
                             <input type="text" name="experiences[${index}][structure_nom]" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" required>
                         </div>
                         <div>
-                            <label for="experiences[${index}][domaine_intervention]" class="block text-sm font-medium text-gray-700">Domaine d\\'intervention</label>
+                            <label for="experiences[${index}][domaine_intervention]" class="block text-sm font-medium text-gray-700">Domaine d'intervention</label>
                             <input type="text" name="experiences[${index}][domaine_intervention]" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" required>
                         </div>
                         <div>
@@ -516,6 +560,7 @@
                     </div>
                 `;
                 container.insertAdjacentHTML("beforeend", newExperienceHtml);
+                setupDeleteHandlers(); // Appeler après l'ajout
             });
 
             // Dynamic fields for Langues parlées (Agents de collecte)
@@ -524,6 +569,17 @@
                 const index = container.children.length;
                 const newLangueHtml = `
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 border p-4 rounded-md">
+                        <div >
+                        <button type="button"
+                            class="delete-field bg-red-500 hover:bg-red-600 text-white rounded-full p-1 shadow-md transition duration-200"
+                            title="Supprimer ce diplôme">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
                         <div>
                             <label for="langues_parlees[${index}][langue]" class="block text-sm font-medium text-gray-700">Langue</label>
                             <input type="text" name="langues_parlees[${index}][langue]" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
@@ -535,14 +591,26 @@
                     </div>
                 `;
                 container.insertAdjacentHTML("beforeend", newLangueHtml);
+                setupDeleteHandlers(); // Appeler après l'ajout
             });
 
-            // Dynamic fields for Expérience d\\'enquêtes (Ménage)
+            // Dynamic fields for Expérience d'enquêtes (Ménage)
             document.getElementById("add_enquete_menage").addEventListener("click", function() {
                 const container = document.getElementById("enquetes_menage_container");
                 const index = container.children.length;
                 const newEnqueteMenageHtml = `
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 border p-4 rounded-md">
+                        <div >
+                        <button type="button"
+                            class="delete-field bg-red-500 hover:bg-red-600 text-white rounded-full p-1 shadow-md transition duration-200"
+                            title="Supprimer ce diplôme">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
                         <div>
                             <label for="enquetes_menage[${index}][annee]" class="block text-sm font-medium text-gray-700">Année</label>
                             <input type="number" name="enquetes_menage[${index}][annee]" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
@@ -560,20 +628,32 @@
                             <input type="text" name="enquetes_menage[${index}][structure]" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
                         </div>
                         <div>
-                            <label for="enquetes_menage[${index}][nombre_enquetes]" class="block text-sm font-medium text-gray-700">Nombre d\\'enquêtes</label>
+                            <label for="enquetes_menage[${index}][nombre_enquetes]" class="block text-sm font-medium text-gray-700">Nombre d'enquêtes</label>
                             <input type="number" name="enquetes_menage[${index}][nombre_enquetes]" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
                         </div>
                     </div>
                 `;
                 container.insertAdjacentHTML("beforeend", newEnqueteMenageHtml);
+                setupDeleteHandlers(); // Appeler après l'ajout
             });
 
-            // Dynamic fields for Expérience d\\'enquêtes (Entreprise)
+            // Dynamic fields for Expérience d'enquêtes (Entreprise)
             document.getElementById("add_enquete_entreprise").addEventListener("click", function() {
                 const container = document.getElementById("enquetes_entreprise_container");
                 const index = container.children.length;
                 const newEnqueteEntrepriseHtml = `
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 border p-4 rounded-md">
+                        <div >
+                        <button type="button"
+                            class="delete-field bg-red-500 hover:bg-red-600 text-white rounded-full p-1 shadow-md transition duration-200"
+                            title="Supprimer ce diplôme">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
                         <div>
                             <label for="enquetes_entreprise[${index}][annee]" class="block text-sm font-medium text-gray-700">Année</label>
                             <input type="number" name="enquetes_entreprise[${index}][annee]" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
@@ -591,20 +671,32 @@
                             <input type="text" name="enquetes_entreprise[${index}][structure]" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
                         </div>
                         <div>
-                            <label for="enquetes_entreprise[${index}][nombre_enquetes]" class="block text-sm font-medium text-gray-700">Nombre d\\'enquêtes</label>
+                            <label for="enquetes_entreprise[${index}][nombre_enquetes]" class="block text-sm font-medium text-gray-700">Nombre d'enquêtes</label>
                             <input type="number" name="enquetes_entreprise[${index}][nombre_enquetes]" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
                         </div>
                     </div>
                 `;
                 container.insertAdjacentHTML("beforeend", newEnqueteEntrepriseHtml);
+                setupDeleteHandlers(); // Appeler après l'ajout
             });
 
-            // Dynamic fields for Expérience d\\'enquêtes (Socio-économique)
+            // Dynamic fields for Expérience d'enquêtes (Socio-économique)
             document.getElementById("add_enquete_socio_economique").addEventListener("click", function() {
                 const container = document.getElementById("enquetes_socio_economique_container");
                 const index = container.children.length;
                 const newEnqueteSocioEconomiqueHtml = `
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 border p-4 rounded-md">
+                        <div >
+                        <button type="button"
+                            class="delete-field bg-red-500 hover:bg-red-600 text-white rounded-full p-1 shadow-md transition duration-200"
+                            title="Supprimer ce diplôme">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd"
+                                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
                         <div>
                             <label for="enquetes_socio_economique[${index}][annee]" class="block text-sm font-medium text-gray-700">Année</label>
                             <input type="number" name="enquetes_socio_economique[${index}][annee]" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
@@ -622,12 +714,13 @@
                             <input type="text" name="enquetes_socio_economique[${index}][structure]" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
                         </div>
                         <div>
-                            <label for="enquetes_socio_economique[${index}][nombre_enquetes]" class="block text-sm font-medium text-gray-700">Nombre d\\'enquêtes</label>
+                            <label for="enquetes_socio_economique[${index}][nombre_enquetes]" class="block text-sm font-medium text-gray-700">Nombre d'enquêtes</label>
                             <input type="number" name="enquetes_socio_economique[${index}][nombre_enquetes]" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
                         </div>
                     </div>
                 `;
                 container.insertAdjacentHTML("beforeend", newEnqueteSocioEconomiqueHtml);
+                setupDeleteHandlers(); // Appeler après l'ajout
             });
         });
     </script>

@@ -97,7 +97,7 @@
             function loadCriteres(projetId) {
                 console.log('Projet ID:', projetId);
                 if (!projetId) {
-                    criteresContainer.innerHTML = '<p class="text-gray-500">Veuillez sélectionner un projet pour afficher les critères d\'évaluation.</p>';
+                    criteresContainer.innerHTML = "<p class='text-gray-500'>Veuillez sélectionner un projet pour afficher les critères d'évaluation.</p>";
                     return;
                 }
 
@@ -106,7 +106,7 @@
                     .then(data => {
                         let html = '';
                         if (data.length === 0) {
-                            html = '<p class="text-gray-500">Aucun critère d\'évaluation trouvé pour ce projet.</p>';
+                            html = "<p class='text-gray-500'>Aucun critère d'évaluation trouvé pour ce projet.</p>"";
                         } else {
                             data.forEach((critere, index) => {
                                 html += `
